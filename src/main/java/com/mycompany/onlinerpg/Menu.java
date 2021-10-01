@@ -163,6 +163,7 @@ public class Menu extends javax.swing.JFrame {
     jPanel11 = new javax.swing.JPanel();
     jTextField8 = new javax.swing.JTextField();
     jButton22 = new javax.swing.JButton();
+    jLabel12 = new javax.swing.JLabel();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -761,13 +762,13 @@ public class Menu extends javax.swing.JFrame {
     jPanel11.setBackground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel11Layout = new java.awt.GridBagLayout();
     jPanel11Layout.columnWidths = new int[] {0, 40, 0, 40, 0};
-    jPanel11Layout.rowHeights = new int[] {0, 32, 0};
+    jPanel11Layout.rowHeights = new int[] {0, 32, 0, 32, 0};
     jPanel11.setLayout(jPanel11Layout);
 
-    jTextField8.setToolTipText("ipserver");
+    jTextField8.setToolTipText("");
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridy = 2;
     gridBagConstraints.gridwidth = 5;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     jPanel11.add(jTextField8, gridBagConstraints);
@@ -780,8 +781,16 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
-    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridy = 4;
     jPanel11.add(jButton22, gridBagConstraints);
+
+    jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+    jLabel12.setText("Ip сервера БД");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 5;
+    jPanel11.add(jLabel12, gridBagConstraints);
 
     jTabbedPane1.addTab("connectToMainServer", jPanel11);
 
@@ -1151,6 +1160,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
