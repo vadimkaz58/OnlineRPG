@@ -9,11 +9,14 @@ import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
 import java.util.Formatter;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,7 +31,10 @@ public class Menu extends javax.swing.JFrame {
     public ArrayList<String> serversName;
     public ArrayList<String> serversIp;
     public ArrayList<String> serversPass;
-    public boolean online = true;
+    public boolean online = false;
+    public int accountPage = 9;
+    public String name;
+    private String ipBDServer;
     /**
      * Creates new form Menu
      */
@@ -98,6 +104,7 @@ public class Menu extends javax.swing.JFrame {
     jButton3 = new javax.swing.JButton();
     jButton1 = new javax.swing.JButton();
     jButton2 = new javax.swing.JButton();
+    jLabel11 = new javax.swing.JLabel();
     jPanel5 = new javax.swing.JPanel();
     accept = new javax.swing.JButton();
     jToggleButton1 = new javax.swing.JToggleButton();
@@ -132,6 +139,7 @@ public class Menu extends javax.swing.JFrame {
     jButton14 = new javax.swing.JButton();
     jLabel2 = new javax.swing.JLabel();
     jLabel3 = new javax.swing.JLabel();
+    jLabel10 = new javax.swing.JLabel();
     jPanel8 = new javax.swing.JPanel();
     jTextField6 = new javax.swing.JTextField();
     jPasswordField1 = new javax.swing.JPasswordField();
@@ -150,6 +158,12 @@ public class Menu extends javax.swing.JFrame {
     jPasswordField3 = new javax.swing.JPasswordField();
     jLabel9 = new javax.swing.JLabel();
     jTextField7 = new javax.swing.JTextField();
+    jPanel10 = new javax.swing.JPanel();
+    jButton21 = new javax.swing.JButton();
+    jPanel11 = new javax.swing.JPanel();
+    jTextField8 = new javax.swing.JTextField();
+    jButton22 = new javax.swing.JButton();
+    jLabel12 = new javax.swing.JLabel();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,8 +178,8 @@ public class Menu extends javax.swing.JFrame {
     jPanel2.setBackground(new java.awt.Color(255, 204, 204));
     jPanel2.setForeground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
-    jPanel2Layout.columnWidths = new int[] {0};
-    jPanel2Layout.rowHeights = new int[] {0, 32, 0, 32, 0};
+    jPanel2Layout.columnWidths = new int[] {0, 5, 0};
+    jPanel2Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0};
     jPanel2.setLayout(jPanel2Layout);
 
     jButton3.setBackground(new java.awt.Color(102, 102, 102));
@@ -177,11 +191,12 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 6;
     jPanel2.add(jButton3, gridBagConstraints);
 
     jButton1.setBackground(new java.awt.Color(102, 102, 102));
     jButton1.setText("Начать игру");
+    jButton1.setEnabled(false);
     jButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jButton1ActionPerformed(evt);
@@ -189,7 +204,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridy = 2;
     jPanel2.add(jButton1, gridBagConstraints);
 
     jButton2.setBackground(new java.awt.Color(102, 102, 102));
@@ -201,8 +216,16 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridy = 4;
     jPanel2.add(jButton2, gridBagConstraints);
+
+    jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+    jLabel11.setForeground(new java.awt.Color(0, 0, 102));
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    jPanel2.add(jLabel11, gridBagConstraints);
+    jLabel11.getAccessibleContext().setAccessibleName("jname");
 
     jTabbedPane1.addTab("Main", jPanel2);
 
@@ -274,6 +297,7 @@ public class Menu extends javax.swing.JFrame {
     jPanel5.add(jButton11, gridBagConstraints);
 
     jCheckBox3.setForeground(new java.awt.Color(0, 0, 0));
+    jCheckBox3.setSelected(true);
     jCheckBox3.setText("Онлайн");
     jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -482,9 +506,15 @@ public class Menu extends javax.swing.JFrame {
 
     jPanel4.setBackground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-    jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
+    jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
     jPanel4Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0};
     jPanel4.setLayout(jPanel4Layout);
+
+    jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jTextField4ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 0;
@@ -510,6 +540,11 @@ public class Menu extends javax.swing.JFrame {
     jPanel4.add(jButton12, gridBagConstraints);
 
     jButton13.setText("Принять");
+    jButton13.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton13ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
     gridBagConstraints.gridy = 6;
@@ -523,7 +558,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 6;
     jPanel4.add(jButton14, gridBagConstraints);
 
     jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -539,6 +574,16 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 2;
     jPanel4.add(jLabel3, gridBagConstraints);
+
+    jLabel10.setForeground(new java.awt.Color(204, 51, 0));
+    jLabel10.setText("Неверный логин или пароль!");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    jPanel4.add(jLabel10, gridBagConstraints);
+    jLabel10.setVisible(false);
 
     jTabbedPane1.addTab("log", jPanel4);
 
@@ -691,6 +736,63 @@ public class Menu extends javax.swing.JFrame {
     jPanel9.add(jTextField7, gridBagConstraints);
 
     jTabbedPane1.addTab("Add connect", jPanel9);
+
+    jPanel10.setBackground(new java.awt.Color(255, 204, 204));
+    java.awt.GridBagLayout jPanel10Layout = new java.awt.GridBagLayout();
+    jPanel10Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+    jPanel10Layout.rowHeights = new int[] {0, 0, 0, 0, 0};
+    jPanel10.setLayout(jPanel10Layout);
+
+    jButton21.setText("Выход");
+    jButton21.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton21ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 7;
+    gridBagConstraints.gridheight = 5;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    jPanel10.add(jButton21, gridBagConstraints);
+
+    jTabbedPane1.addTab("Log out", jPanel10);
+
+    jPanel11.setBackground(new java.awt.Color(255, 204, 204));
+    java.awt.GridBagLayout jPanel11Layout = new java.awt.GridBagLayout();
+    jPanel11Layout.columnWidths = new int[] {0, 40, 0, 40, 0};
+    jPanel11Layout.rowHeights = new int[] {0, 32, 0, 32, 0};
+    jPanel11.setLayout(jPanel11Layout);
+
+    jTextField8.setToolTipText("");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    jPanel11.add(jTextField8, gridBagConstraints);
+
+    jButton22.setText("Принять");
+    jButton22.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton22ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 4;
+    gridBagConstraints.gridy = 4;
+    jPanel11.add(jButton22, gridBagConstraints);
+
+    jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+    jLabel12.setText("Ip сервера БД");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 5;
+    jPanel11.add(jLabel12, gridBagConstraints);
+
+    jTabbedPane1.addTab("connectToMainServer", jPanel11);
 
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
     jPanel1.setLayout(jPanel1Layout);
@@ -845,7 +947,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        jTabbedPane1.setSelectedIndex(5);
+        jTabbedPane1.setSelectedIndex(accountPage);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
@@ -862,7 +964,23 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         if (Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) {
-
+            jLabel4.setForeground(Color.black);
+            try {
+                DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer);
+                if (databaseProcedures.registDB(jTextField6.getText(), String.valueOf(jPasswordField1.getPassword()))) {
+                    online = true;
+                    jButton1.setEnabled(true);
+                    accountPage = 8;
+                    name = jTextField6.getText();
+                    jLabel11.setText(name);
+                     jTabbedPane1.setSelectedIndex(0);
+                    } else {
+                        jLabel4.setForeground(Color.red);
+                    }
+                    databaseProcedures.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             jLabel6.setForeground(Color.RED);
         }
@@ -929,14 +1047,51 @@ public class Menu extends javax.swing.JFrame {
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
         if (jCheckBox3.isSelected()) {
             online = true;
+            jButton11.setEnabled(true);
         } else {
             online = false;
+            jButton11.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        try {
+            DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer);
+            if (databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText())) {
+                online = true;
+                jButton1.setEnabled(true);
+                jLabel10.setVisible(false);
+                accountPage = 8;
+                name = jTextField4.getText();
+                jLabel11.setText(name);
+                jTabbedPane1.setSelectedIndex(0);
+            } else {
+                jLabel10.setVisible(true);
+            }
+            databaseProcedures.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        accountPage = 5;
+        jTabbedPane1.setSelectedIndex(accountPage);
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        ipBDServer = jTextField8.getText();
+        accountPage = 5;
+        jTabbedPane1.setSelectedIndex(accountPage);
+    }//GEN-LAST:event_jButton22ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -989,6 +1144,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1001,6 +1158,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1012,6 +1172,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.DefaultListModel listModel;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1032,6 +1194,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
