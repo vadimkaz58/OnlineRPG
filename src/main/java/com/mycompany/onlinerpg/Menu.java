@@ -34,7 +34,9 @@ public class Menu extends javax.swing.JFrame {
     public boolean online = false;
     public int accountPage = 9;
     public String name;
+    public String password;
     private String ipBDServer;
+    int role = 0;
     /**
      * Creates new form Menu
      */
@@ -105,6 +107,7 @@ public class Menu extends javax.swing.JFrame {
     jButton1 = new javax.swing.JButton();
     jButton2 = new javax.swing.JButton();
     jLabel11 = new javax.swing.JLabel();
+    jButton23 = new javax.swing.JButton();
     jPanel5 = new javax.swing.JPanel();
     accept = new javax.swing.JButton();
     jToggleButton1 = new javax.swing.JToggleButton();
@@ -164,6 +167,7 @@ public class Menu extends javax.swing.JFrame {
     jTextField8 = new javax.swing.JTextField();
     jButton22 = new javax.swing.JButton();
     jLabel12 = new javax.swing.JLabel();
+    jPanel12 = new javax.swing.JPanel();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,8 +182,8 @@ public class Menu extends javax.swing.JFrame {
     jPanel2.setBackground(new java.awt.Color(255, 204, 204));
     jPanel2.setForeground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
-    jPanel2Layout.columnWidths = new int[] {0, 5, 0};
-    jPanel2Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0};
+    jPanel2Layout.columnWidths = new int[] {0};
+    jPanel2Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0, 32, 0};
     jPanel2.setLayout(jPanel2Layout);
 
     jButton3.setBackground(new java.awt.Color(102, 102, 102));
@@ -191,7 +195,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 8;
     jPanel2.add(jButton3, gridBagConstraints);
 
     jButton1.setBackground(new java.awt.Color(102, 102, 102));
@@ -216,7 +220,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 6;
     jPanel2.add(jButton2, gridBagConstraints);
 
     jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -226,6 +230,13 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints.gridy = 0;
     jPanel2.add(jLabel11, gridBagConstraints);
     jLabel11.getAccessibleContext().setAccessibleName("jname");
+
+    jButton23.setText("Игроки");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 4;
+    jPanel2.add(jButton23, gridBagConstraints);
+    jButton23.setVisible(false);
 
     jTabbedPane1.addTab("Main", jPanel2);
 
@@ -794,13 +805,24 @@ public class Menu extends javax.swing.JFrame {
 
     jTabbedPane1.addTab("connectToMainServer", jPanel11);
 
+    javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+    jPanel12.setLayout(jPanel12Layout);
+    jPanel12Layout.setHorizontalGroup(
+        jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 500, Short.MAX_VALUE)
+    );
+    jPanel12Layout.setVerticalGroup(
+        jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 436, Short.MAX_VALUE)
+    );
+
+    jTabbedPane1.addTab("players", jPanel12);
+
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
     jPanel1.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addComponent(jTabbedPane1)
-            .addGap(0, 0, 0))
+        .addComponent(jTabbedPane1)
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1065,19 +1087,34 @@ public class Menu extends javax.swing.JFrame {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         try {
             DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer);
-            if (databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText())) {
-                online = true;
-                jButton1.setEnabled(true);
-                jLabel10.setVisible(false);
-                accountPage = 8;
-                name = jTextField4.getText();
-                jLabel11.setText(name);
-                jTabbedPane1.setSelectedIndex(0);
-            } else {
-                jLabel10.setVisible(true);
+            switch (databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText())[0]) {
+                case 0:
+                    jLabel10.setText("Неверный логин или пароль!");
+                    jLabel10.setVisible(true);
+                    break;
+                case 1:
+                    online = true;
+                    jButton1.setEnabled(true);
+                    jLabel10.setVisible(false);
+                    accountPage = 8;
+                    name = jTextField4.getText();
+                    jLabel11.setText(name);
+                    role = databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText())[1];
+                    if (role == 2) {
+                       password = jTextField5.getText();
+                       jButton23.setVisible(true);
+                    }
+                    jTabbedPane1.setSelectedIndex(0);
+                    break;
+                case 2:
+                    jLabel10.setText("Аккаунт был забаннен!");
+                    jLabel10.setVisible(true);
+                    break;
             }
             databaseProcedures.close();
         } catch (SQLException ex) {
+            jLabel10.setText("Ошибка на сервере!");
+            jLabel10.setVisible(true);
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton13ActionPerformed
@@ -1146,6 +1183,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1174,6 +1212,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
