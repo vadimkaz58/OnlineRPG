@@ -30,12 +30,13 @@ public class DatabaseProcedures {
         }
     }
     
-    public boolean loginDB(String login, String password) throws SQLException {
+    public int[] loginDB(String login, String password) throws SQLException {
         CallableStatement proc = connection.prepareCall("{ call login(?, ?, ?) }");
         proc.setString(1, login);
         proc.setString(2, password);
         proc.execute();
-        return proc.getBoolean(3);
+        int[] exitsAndRole = {proc.getInt(3), proc.getInt(4)};
+        return exitsAndRole;
     }
     
     public boolean registDB(String login, String password) throws SQLException {
