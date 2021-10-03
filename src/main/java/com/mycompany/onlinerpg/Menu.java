@@ -1087,7 +1087,8 @@ public class Menu extends javax.swing.JFrame {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         try {
             DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer);
-            switch (databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText())[0]) {
+            int[] exitsAandBan = databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText());
+            switch (exitsAandBan[0]) {
                 case 0:
                     jLabel10.setText("Неверный логин или пароль!");
                     jLabel10.setVisible(true);
@@ -1098,8 +1099,7 @@ public class Menu extends javax.swing.JFrame {
                     jLabel10.setVisible(false);
                     accountPage = 8;
                     name = jTextField4.getText();
-                    jLabel11.setText(name);
-                    role = databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText())[1];
+                    role = exitsAandBan[1];
                     if (role == 2) {
                        password = jTextField5.getText();
                        jButton23.setVisible(true);
