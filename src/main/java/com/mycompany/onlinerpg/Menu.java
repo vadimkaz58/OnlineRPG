@@ -1099,6 +1099,7 @@ public class Menu extends javax.swing.JFrame {
                     jLabel10.setVisible(false);
                     accountPage = 8;
                     name = jTextField4.getText();
+                    jLabel11.setText(name);
                     role = exitsAandBan[1];
                     if (role == 2) {
                        password = jTextField5.getText();
