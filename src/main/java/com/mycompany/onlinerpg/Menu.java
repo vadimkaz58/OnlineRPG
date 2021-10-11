@@ -17,6 +17,7 @@ import java.util.Formatter;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,7 +37,9 @@ public class Menu extends javax.swing.JFrame {
     public String name;
     public String password;
     private String ipBDServer;
-    int role = 0;
+    public int role = 0;
+    public int score = 0;
+    DefaultTableModel tableModel;
     /**
      * Creates new form Menu
      */
@@ -107,7 +110,7 @@ public class Menu extends javax.swing.JFrame {
     jButton1 = new javax.swing.JButton();
     jButton2 = new javax.swing.JButton();
     jLabel11 = new javax.swing.JLabel();
-    jButton23 = new javax.swing.JButton();
+    labelScore = new javax.swing.JLabel();
     jPanel5 = new javax.swing.JPanel();
     accept = new javax.swing.JButton();
     jToggleButton1 = new javax.swing.JToggleButton();
@@ -115,6 +118,8 @@ public class Menu extends javax.swing.JFrame {
     jComboBox1 = new javax.swing.JComboBox<>();
     jButton11 = new javax.swing.JButton();
     jCheckBox3 = new javax.swing.JCheckBox();
+    jButton23 = new javax.swing.JButton();
+    jButton30 = new javax.swing.JButton();
     jPanel6 = new javax.swing.JPanel();
     jButton4 = new javax.swing.JButton();
     jButton5 = new javax.swing.JButton();
@@ -163,11 +168,21 @@ public class Menu extends javax.swing.JFrame {
     jTextField7 = new javax.swing.JTextField();
     jPanel10 = new javax.swing.JPanel();
     jButton21 = new javax.swing.JButton();
+    jButton28 = new javax.swing.JButton();
+    jButton29 = new javax.swing.JButton();
     jPanel11 = new javax.swing.JPanel();
     jTextField8 = new javax.swing.JTextField();
     jButton22 = new javax.swing.JButton();
     jLabel12 = new javax.swing.JLabel();
+    jButton31 = new javax.swing.JButton();
     jPanel12 = new javax.swing.JPanel();
+    jScrollPane2 = new javax.swing.JScrollPane();
+    jTable1 = new javax.swing.JTable();
+    jButton24 = new javax.swing.JButton();
+    jButton25 = new javax.swing.JButton();
+    jButton26 = new javax.swing.JButton();
+    jButton27 = new javax.swing.JButton();
+    jComboBox2 = new javax.swing.JComboBox<>();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,12 +193,13 @@ public class Menu extends javax.swing.JFrame {
 
     jTabbedPane1.setBackground(new java.awt.Color(51, 51, 51));
     jTabbedPane1.setForeground(new java.awt.Color(255, 204, 204));
+    jTabbedPane1.setEnabled(false);
 
     jPanel2.setBackground(new java.awt.Color(255, 204, 204));
     jPanel2.setForeground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
     jPanel2Layout.columnWidths = new int[] {0};
-    jPanel2Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0, 32, 0};
+    jPanel2Layout.rowHeights = new int[] {0, 22, 0, 22, 0, 22, 0, 22, 0};
     jPanel2.setLayout(jPanel2Layout);
 
     jButton3.setBackground(new java.awt.Color(102, 102, 102));
@@ -208,7 +224,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridy = 4;
     jPanel2.add(jButton1, gridBagConstraints);
 
     jButton2.setBackground(new java.awt.Color(102, 102, 102));
@@ -228,15 +244,15 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 0;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
     jPanel2.add(jLabel11, gridBagConstraints);
     jLabel11.getAccessibleContext().setAccessibleName("jname");
 
-    jButton23.setText("Игроки");
+    labelScore.setForeground(new java.awt.Color(0, 0, 0));
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 4;
-    jPanel2.add(jButton23, gridBagConstraints);
-    jButton23.setVisible(false);
+    gridBagConstraints.gridy = 2;
+    jPanel2.add(labelScore, gridBagConstraints);
 
     jTabbedPane1.addTab("Main", jPanel2);
 
@@ -244,7 +260,7 @@ public class Menu extends javax.swing.JFrame {
     jPanel5.setForeground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel5Layout = new java.awt.GridBagLayout();
     jPanel5Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-    jPanel5Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0};
+    jPanel5Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0, 32, 0};
     jPanel5.setLayout(jPanel5Layout);
 
     accept.setText("Принять");
@@ -255,7 +271,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 8;
     jPanel5.add(accept, gridBagConstraints);
 
     jToggleButton1.setText("Полный экран");
@@ -277,7 +293,7 @@ public class Menu extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 8;
     jPanel5.add(cancel, gridBagConstraints);
     cancel.getAccessibleContext().setAccessibleName("jButton5");
 
@@ -319,6 +335,29 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints.gridx = 4;
     gridBagConstraints.gridy = 4;
     jPanel5.add(jCheckBox3, gridBagConstraints);
+
+    jButton23.setText("Игроки");
+    jButton23.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton23ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 2;
+    gridBagConstraints.gridy = 8;
+    jPanel5.add(jButton23, gridBagConstraints);
+    jButton23.setVisible(false);
+
+    jButton30.setText("Сервер БД");
+    jButton30.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton30ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 6;
+    jPanel5.add(jButton30, gridBagConstraints);
 
     jTabbedPane1.addTab("Option", jPanel5);
 
@@ -750,11 +789,11 @@ public class Menu extends javax.swing.JFrame {
 
     jPanel10.setBackground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel10Layout = new java.awt.GridBagLayout();
-    jPanel10Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-    jPanel10Layout.rowHeights = new int[] {0, 0, 0, 0, 0};
+    jPanel10Layout.columnWidths = new int[] {0};
+    jPanel10Layout.rowHeights = new int[] {0, 30, 0, 30, 0};
     jPanel10.setLayout(jPanel10Layout);
 
-    jButton21.setText("Выход");
+    jButton21.setText("Выход из учётной записи");
     jButton21.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jButton21ActionPerformed(evt);
@@ -763,10 +802,29 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.gridwidth = 7;
-    gridBagConstraints.gridheight = 5;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
     jPanel10.add(jButton21, gridBagConstraints);
+
+    jButton28.setText("Изменить сервер Базы данных");
+    jButton28.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton28ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 2;
+    jPanel10.add(jButton28, gridBagConstraints);
+
+    jButton29.setText("Назад");
+    jButton29.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton29ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 4;
+    jPanel10.add(jButton29, gridBagConstraints);
 
     jTabbedPane1.addTab("Log out", jPanel10);
 
@@ -803,18 +861,128 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints.gridwidth = 5;
     jPanel11.add(jLabel12, gridBagConstraints);
 
+    jButton31.setText("Назад");
+    jButton31.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton31ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 4;
+    jPanel11.add(jButton31, gridBagConstraints);
+
     jTabbedPane1.addTab("connectToMainServer", jPanel11);
 
-    javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+    jPanel12.setBackground(new java.awt.Color(255, 204, 204));
+    java.awt.GridBagLayout jPanel12Layout = new java.awt.GridBagLayout();
+    jPanel12Layout.columnWidths = new int[] {0, 30, 0, 30, 0, 30, 0};
+    jPanel12Layout.rowHeights = new int[] {0, 13, 0, 13, 0};
     jPanel12.setLayout(jPanel12Layout);
-    jPanel12Layout.setHorizontalGroup(
-        jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 500, Short.MAX_VALUE)
-    );
-    jPanel12Layout.setVerticalGroup(
-        jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 436, Short.MAX_VALUE)
-    );
+
+    jTable1.setAutoCreateRowSorter(true);
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+
+        },
+        new String [] {
+            "id", "name", "role", "score", "isBanned"
+        }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
+        };
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+        };
+
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    jTable1.setToolTipText("");
+    jTable1.setAlignmentX(0.8F);
+    jTable1.setCellSelectionEnabled(true);
+    jTable1.setFillsViewportHeight(true);
+    jTable1.setMinimumSize(new java.awt.Dimension(250, 0));
+    jTable1.setPreferredSize(new java.awt.Dimension(250, 0));
+    jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    jTable1.setShowVerticalLines(true);
+    jScrollPane2.setViewportView(jTable1);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.ipadx = 250;
+    gridBagConstraints.ipady = 250;
+    jPanel12.add(jScrollPane2, gridBagConstraints);
+
+    jButton24.setText("Изменить");
+    jButton24.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton24ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 4;
+    gridBagConstraints.gridy = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+    jPanel12.add(jButton24, gridBagConstraints);
+    jButton24.setVisible(false);
+
+    jButton25.setText("Назад");
+    jButton25.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton25ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 4;
+    jPanel12.add(jButton25, gridBagConstraints);
+
+    jButton26.setText("Бан");
+    jButton26.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton26ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 4;
+    gridBagConstraints.gridy = 4;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+    jPanel12.add(jButton26, gridBagConstraints);
+
+    jButton27.setText("Обновить");
+    jButton27.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton27ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 2;
+    gridBagConstraints.gridy = 4;
+    jPanel12.add(jButton27, gridBagConstraints);
+
+    jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Игрок", "Администартор", "Главный администратор" }));
+    jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jComboBox2ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    jPanel12.add(jComboBox2, gridBagConstraints);
 
     jTabbedPane1.addTab("players", jPanel12);
 
@@ -1100,10 +1268,22 @@ public class Menu extends javax.swing.JFrame {
                     accountPage = 8;
                     name = jTextField4.getText();
                     jLabel11.setText(name);
+                    score = exitsAandBan[2];
+                    labelScore.setText("Очки: " + score);
                     role = exitsAandBan[1];
-                    if (role == 2) {
-                       password = jTextField5.getText();
-                       jButton23.setVisible(true);
+                    password = jTextField5.getText();
+                    switch (role) {
+                        case 2:
+                            jButton23.setVisible(true);
+                            break;
+                        case 3:
+                            jButton23.setVisible(true);
+                            jButton24.setVisible(true);
+                            break;
+                        default:
+                            jButton23.setVisible(false);
+                            jButton24.setVisible(false);
+                            break;
                     }
                     jTabbedPane1.setSelectedIndex(0);
                     break;
@@ -1114,7 +1294,7 @@ public class Menu extends javax.swing.JFrame {
             }
             databaseProcedures.close();
         } catch (SQLException ex) {
-            jLabel10.setText("Ошибка на сервере!");
+            jLabel10.setText("Ошибка сервера!");
             jLabel10.setVisible(true);
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1128,8 +1308,97 @@ public class Menu extends javax.swing.JFrame {
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         ipBDServer = jTextField8.getText();
         accountPage = 5;
+        jButton1.setEnabled(false);
+        jLabel10.setVisible(false);
+        name = "";
+        labelScore.setText("");
+        role = 0;
+        password = "";
+        jButton23.setVisible(false);
+        jButton24.setVisible(false);
         jTabbedPane1.setSelectedIndex(accountPage);
     }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        jTabbedPane1.setSelectedIndex(10);
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
+        try {
+            tableModel = (DefaultTableModel) jTable1.getModel();
+            DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer, name, password);
+            Object[][] ob = databaseProcedures.getPlayersDB();
+            databaseProcedures.close();
+            tableModel.setRowCount(0);
+            for (int i =0; i < ob.length; i++) {
+                tableModel.addRow(ob[i]);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton27ActionPerformed
+    
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        tableModel = (DefaultTableModel) jTable1.getModel();
+        int index = jTable1.getSelectedRow();
+        int id = (int) tableModel.getValueAt(index, 0);
+        int role = jComboBox2.getSelectedIndex() + 1;
+        try {
+            DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer, name, password);
+            if (databaseProcedures.addAdminDB(id, role)) {
+               tableModel.setValueAt(jComboBox2.getSelectedItem(), index, 2);
+            }
+            databaseProcedures.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+        jTabbedPane1.setSelectedIndex(9);
+    }//GEN-LAST:event_jButton28ActionPerformed
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        int index = jTable1.getSelectedRow();
+        int id = (int) tableModel.getValueAt(index, 0);
+        tableModel = (DefaultTableModel) jTable1.getModel();
+        try {
+            DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer, name, password);
+            if (databaseProcedures.ban(id)) {
+                if ((boolean) tableModel.getValueAt(index, 4)) {
+                    tableModel.setValueAt(false, index, 4);
+                } else {
+                    tableModel.setValueAt(true, index, 4);
+                }
+                jButton26.setForeground(Color.black);
+            } else {
+                jButton26.setForeground(Color.red);
+            }
+            databaseProcedures.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton26ActionPerformed
+
+    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        jTabbedPane1.setSelectedIndex(9);
+    }//GEN-LAST:event_jButton30ActionPerformed
+
+    private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1185,7 +1454,15 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
+    private javax.swing.JButton jButton27;
+    private javax.swing.JButton jButton28;
+    private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton30;
+    private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1196,6 +1473,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1226,7 +1504,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -1236,5 +1516,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel labelScore;
     // End of variables declaration//GEN-END:variables
 }
