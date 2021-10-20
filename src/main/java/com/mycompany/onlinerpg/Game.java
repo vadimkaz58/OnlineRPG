@@ -5,12 +5,15 @@
  */
 package com.mycompany.onlinerpg;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.UIManager;
 
 /**
@@ -25,14 +28,20 @@ public class Game extends javax.swing.JPanel {
     int startPage = 0;
     String player2 = "player2";
     String ipBDServer;
+    Square[][] field = new Square[3][3];
+    Player[] players = new Player[2];
+    Player activePlayer;
+    JButton[][] jBF = new JButton[3][3];
+    int scoreP1 = 0;
     /**
      * Creates new form Game
      */
-    public Game(Menu menu, String name, boolean online, String ipBDServer) {
+    public Game(Menu menu, String name, boolean online, String ipBDServer, int scoreP1) {
         this.online = online;
         this.name = name;
         this.menu = menu;
         this.ipBDServer = ipBDServer;
+        this.scoreP1 = scoreP1;
         if (online) {
             startPage = 0;  
         } else {
@@ -41,8 +50,137 @@ public class Game extends javax.swing.JPanel {
         initComponents();
         jLabelPlayer1.setText(name);
         jTabbedPane1.setSelectedIndex(startPage);
-        jBF1x1.setIcon(new ImageIcon("src/image/sword.png"));
-        jBF2x2.setIcon(new ImageIcon("src/image/shield.png"));
+        players[0] = new Player(name, new ImageIcon("src/image/shield.png"));
+        players[1] = new Player(player2, new ImageIcon("src/image/sword.png"));
+        activePlayer = players[0];
+        jLabelPlayer1.setForeground(Color.blue);
+        jLabelPlayer1.setFont(new Font("Segou UI", Font.PLAIN, 13));
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                field[i][j] = new Square();
+            }
+        }
+        jBF[0][0] = jBF1x1;
+        jBF[0][1] = jBF1x2;
+        jBF[0][2] = jBF1x3;
+        jBF[1][0] = jBF2x1;
+        jBF[1][1] = jBF2x2;
+        jBF[1][2] = jBF2x3;
+        jBF[2][0] = jBF3x1;
+        jBF[2][1] = jBF3x2;
+        jBF[2][2] = jBF3x3;
+    }
+    
+    private void changeActivePlayer() {
+        if (activePlayer == players[1]) {
+            activePlayer = players[0];
+            jLabelPlayer2.setForeground(Color.BLACK);
+            jLabelPlayer2.setFont(new Font("Segou UI", Font.PLAIN, 12));
+            jLabelPlayer1.setForeground(Color.blue);
+            jLabelPlayer1.setFont(new Font("Segou UI", Font.PLAIN, 13));
+        } else {
+            activePlayer = players[1];
+            jLabelPlayer1.setForeground(Color.BLACK);
+            jLabelPlayer1.setFont(new Font("Segou UI", Font.PLAIN, 12));
+            jLabelPlayer2.setForeground(Color.blue);
+            jLabelPlayer2.setFont(new Font("Segou UI", Font.PLAIN, 13));
+        }
+    }
+    
+    private Player checkWinner() {
+        Player currPlayer;
+        Player lastPlayer = null;
+        int successCounter = 1;
+        for (int i = 0, len = field.length; i < len; i++) {
+            currPlayer = field[i][i].player;
+            if (currPlayer != null) {
+                if (lastPlayer == currPlayer) {
+                    successCounter++;
+                    if (successCounter == len) {
+                        return currPlayer;
+                    }
+                }
+            }
+            lastPlayer = currPlayer;
+        }
+        successCounter = 1;
+        for (int i = 0, len = field.length; i < len; i++) {
+            currPlayer = field[i][len - (i + 1)].player;
+            if (currPlayer != null) {
+                if (lastPlayer == currPlayer) {
+                    successCounter++;
+                    if (successCounter == len) {
+                        return currPlayer;
+                    }
+                }
+            }
+            lastPlayer = currPlayer;
+        }
+        for (int i = 0, len = field.length; i < len; i++) {
+            lastPlayer = null;
+            successCounter = 1;
+            for (int j = 0, len2 = field[i].length; j < len2; j++) {
+                currPlayer = field[i][j].player;
+                if (currPlayer == lastPlayer && (currPlayer != null && lastPlayer != null)) {
+                    successCounter++;
+                    if (successCounter == len2) {
+                        return currPlayer;
+                    }
+                }
+                lastPlayer = currPlayer;
+            }
+        }
+        for (int i = 0, len = field.length; i < len; i++) {
+            lastPlayer = null;
+            successCounter = 1;
+            for (int j = 0, len2 = field[i].length; j < len2; j++) {
+                currPlayer = field[j][i].player;
+                if (currPlayer == lastPlayer && (currPlayer != null && lastPlayer != null)) {
+                    successCounter++;
+                    if (successCounter == len2) {
+                        return currPlayer;
+                    }
+                }
+                lastPlayer = currPlayer;
+            }
+        }
+        return null;
+    }
+    
+    private void win() {
+        Player winner = checkWinner();
+        if (winner != null) {
+            if (winner == players[0]) {
+                jLabelScore1.setText(Integer.toString(++winner.score));  
+            } else {
+                jLabelScore2.setText(Integer.toString(++winner.score));
+            }
+            refresh();
+        }
+    }
+    
+    private void refresh() {
+        for (int i = 0; i < jBF.length; i++) {
+            for (int j = 0; j < jBF[i].length;j++) {
+                jBF[i][j].setIcon(null);
+                field[i][j].player = null;
+            }
+        }
+        activePlayer = players[0];
+    }
+    
+    private void field(int x, int y) {
+        if (field[x][y].player == null) {
+            field[x][y].player = activePlayer;
+            jBF[x][y].setIcon(activePlayer.img);
+        } else if (field[x][y].player == activePlayer) {
+            return;
+        } else {
+            field[x][y].player = null;
+            jBF[x][y].setIcon(null);
+        }
+        changeActivePlayer();
+        win();
     }
 
     /**
@@ -171,6 +309,12 @@ public class Game extends javax.swing.JPanel {
     jBF1x1.setMaximumSize(new java.awt.Dimension(50, 50));
     jBF1x1.setMinimumSize(new java.awt.Dimension(50, 50));
     jBF1x1.setPreferredSize(new java.awt.Dimension(50, 50));
+    jBF1x1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jBF1x1ActionPerformed(evt);
+            jFieldAction(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 2;
@@ -179,6 +323,11 @@ public class Game extends javax.swing.JPanel {
     jBF1x2.setMaximumSize(new java.awt.Dimension(50, 50));
     jBF1x2.setMinimumSize(new java.awt.Dimension(50, 50));
     jBF1x2.setPreferredSize(new java.awt.Dimension(50, 50));
+    jBF1x2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jBF1x2ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 2;
@@ -187,6 +336,11 @@ public class Game extends javax.swing.JPanel {
     jBF1x3.setMaximumSize(new java.awt.Dimension(50, 50));
     jBF1x3.setMinimumSize(new java.awt.Dimension(50, 50));
     jBF1x3.setPreferredSize(new java.awt.Dimension(50, 50));
+    jBF1x3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jBF1x3ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
     gridBagConstraints.gridy = 2;
@@ -322,27 +476,27 @@ public class Game extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jBF2x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF2x1ActionPerformed
-        // TODO add your handling code here:
+        field(1,0);
     }//GEN-LAST:event_jBF2x1ActionPerformed
 
     private void jBF2x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF2x2ActionPerformed
-        // TODO add your handling code here:
+        field(1,1);
     }//GEN-LAST:event_jBF2x2ActionPerformed
 
     private void jBF2x3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF2x3ActionPerformed
-        // TODO add your handling code here:
+        field(1,02);
     }//GEN-LAST:event_jBF2x3ActionPerformed
 
     private void jBF3x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF3x1ActionPerformed
-        // TODO add your handling code here:
+        field(2,0);
     }//GEN-LAST:event_jBF3x1ActionPerformed
 
     private void jBF3x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF3x2ActionPerformed
-        // TODO add your handling code here:
+        field(2,1);
     }//GEN-LAST:event_jBF3x2ActionPerformed
 
     private void jBF3x3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF3x3ActionPerformed
-        // TODO add your handling code here:
+        field(2,2);
     }//GEN-LAST:event_jBF3x3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -355,8 +509,27 @@ public class Game extends javax.swing.JPanel {
         }
         databaseProcedures.close();
         menu.setContentPane(menu.jPanel1);
+        scoreP1 += score; 
+        menu.labelScore.setText("Очки: " + Integer.toString(scoreP1));
         menu.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jBF1x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF1x1ActionPerformed
+        field(0,0);
+        
+    }//GEN-LAST:event_jBF1x1ActionPerformed
+
+    private void jFieldAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFieldAction
+        
+    }//GEN-LAST:event_jFieldAction
+
+    private void jBF1x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF1x2ActionPerformed
+        field(0,1);
+    }//GEN-LAST:event_jBF1x2ActionPerformed
+
+    private void jBF1x3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF1x3ActionPerformed
+        field(0,2);
+    }//GEN-LAST:event_jBF1x3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

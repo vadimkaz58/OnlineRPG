@@ -141,13 +141,13 @@ public class Menu extends javax.swing.JFrame {
     jButton18 = new javax.swing.JButton();
     jPanel4 = new javax.swing.JPanel();
     jTextField4 = new javax.swing.JTextField();
-    jTextField5 = new javax.swing.JTextField();
     jButton12 = new javax.swing.JButton();
     jButton13 = new javax.swing.JButton();
     jButton14 = new javax.swing.JButton();
     jLabel2 = new javax.swing.JLabel();
     jLabel3 = new javax.swing.JLabel();
     jLabel10 = new javax.swing.JLabel();
+    jPasswordField4 = new javax.swing.JPasswordField();
     jPanel8 = new javax.swing.JPanel();
     jTextField6 = new javax.swing.JTextField();
     jPasswordField1 = new javax.swing.JPasswordField();
@@ -561,7 +561,7 @@ public class Menu extends javax.swing.JFrame {
 
     jPanel4.setBackground(new java.awt.Color(255, 204, 204));
     java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-    jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+    jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
     jPanel4Layout.rowHeights = new int[] {0, 32, 0, 32, 0, 32, 0};
     jPanel4.setLayout(jPanel4Layout);
 
@@ -576,12 +576,6 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     jPanel4.add(jTextField4, gridBagConstraints);
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.gridwidth = 3;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jPanel4.add(jTextField5, gridBagConstraints);
 
     jButton12.setText("Отмена");
     jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -640,6 +634,18 @@ public class Menu extends javax.swing.JFrame {
     jPanel4.add(jLabel10, gridBagConstraints);
     jLabel10.setVisible(false);
 
+    jPasswordField4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jPasswordField4ActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 2;
+    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    jPanel4.add(jPasswordField4, gridBagConstraints);
+
     jTabbedPane1.addTab("log", jPanel4);
 
     jPanel8.setBackground(new java.awt.Color(255, 204, 204));
@@ -653,6 +659,12 @@ public class Menu extends javax.swing.JFrame {
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     jPanel8.add(jTextField6, gridBagConstraints);
+
+    jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jPasswordField1ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 2;
@@ -1262,7 +1274,7 @@ public class Menu extends javax.swing.JFrame {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         try {
             DatabaseProcedures databaseProcedures = new DatabaseProcedures(ipBDServer);
-            int[] exitsAandBan = databaseProcedures.loginDB(jTextField4.getText(), jTextField5.getText());
+            int[] exitsAandBan = databaseProcedures.loginDB(jTextField4.getText(), String.valueOf(jPasswordField4.getPassword()));
             switch (exitsAandBan[0]) {
                 case 0:
                     jLabel10.setText("Неверный логин или пароль!");
@@ -1278,16 +1290,20 @@ public class Menu extends javax.swing.JFrame {
                     score = exitsAandBan[2];
                     labelScore.setText("Очки: " + score);
                     role = exitsAandBan[1];
-                    password = jTextField5.getText();
+                    password = String.valueOf(jPasswordField4.getPassword());
                     switch (role) {
                         case 2:
+                            jComboBox2.setVisible(false);
+                            jComboBox2.setVisible(false);
                             jButton23.setVisible(true);
                             break;
                         case 3:
+                            jComboBox2.setVisible(true);
                             jButton23.setVisible(true);
                             jButton24.setVisible(true);
                             break;
                         default:
+                            jComboBox2.setVisible(false);
                             jButton23.setVisible(false);
                             jButton24.setVisible(false);
                             break;
@@ -1309,6 +1325,15 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
         accountPage = 5;
+        jButton1.setEnabled(false);
+        jLabel10.setVisible(false);
+        name = "";
+        labelScore.setText("");
+        jLabel11.setText("");
+        role = 0;
+        password = "";
+        jButton23.setVisible(false);
+        jButton24.setVisible(false);
         jTabbedPane1.setSelectedIndex(accountPage);
     }//GEN-LAST:event_jButton21ActionPerformed
 
@@ -1411,10 +1436,18 @@ public class Menu extends javax.swing.JFrame {
         if (online) {
             
         } else {
-            this.setContentPane(new Game(this, name, online, ipBDServer));
+            this.setContentPane(new Game(this, name, online, ipBDServer, score));
             this.setVisible(true);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void jPasswordField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1519,6 +1552,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JPasswordField jPasswordField4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1527,11 +1561,10 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JLabel labelScore;
+    public javax.swing.JLabel labelScore;
     // End of variables declaration//GEN-END:variables
 }
