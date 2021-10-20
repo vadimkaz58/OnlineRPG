@@ -434,6 +434,11 @@ public class Menu extends javax.swing.JFrame {
     jPanel7.add(jCheckBox1, gridBagConstraints);
 
     jButton8.setText("Принять");
+    jButton8.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton8ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
     gridBagConstraints.gridy = 6;
@@ -1095,11 +1100,13 @@ public class Menu extends javax.swing.JFrame {
            jTextField1.setEnabled(false);
            jCheckBox1.setEnabled(false);
            jLabel1.setEnabled(false);
+           online = false;
        } else {
            jTextField2.setEnabled(true);
            jTextField1.setEnabled(true);
            jCheckBox1.setEnabled(true);
            jLabel1.setEnabled(true);
+           online = true;
        }
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
@@ -1400,6 +1407,15 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if (online) {
+            
+        } else {
+            this.setContentPane(new Game(this, name, online, ipBDServer));
+            this.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1488,7 +1504,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.DefaultListModel listModel;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;

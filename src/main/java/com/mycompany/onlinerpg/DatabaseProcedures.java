@@ -90,6 +90,13 @@ public class DatabaseProcedures {
         return proc.getBoolean(3);
     }
     
+    public void addScoreBD(int score, String name) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{ call addScore(?, ?) }");
+        proc.setInt(1, score);
+        proc.setString(2, name);
+        proc.execute();
+    }
+    
     public void close() {
         try {
             connection.close();
