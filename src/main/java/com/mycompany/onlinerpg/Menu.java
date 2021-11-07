@@ -513,6 +513,11 @@ public class Menu extends javax.swing.JFrame {
     jPanel3.add(jScrollPane1, gridBagConstraints);
 
     jButton10.setText("Принять");
+    jButton10.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton10ActionPerformed(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
     gridBagConstraints.gridy = 4;
@@ -1433,12 +1438,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if (online) {
-            
-        } else {
-            this.setContentPane(new Game(this, name, online, ipBDServer, score));
+            this.setContentPane(new Game(this, name, ipBDServer, score, online));
             this.setVisible(true);
-        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
@@ -1448,6 +1449,11 @@ public class Menu extends javax.swing.JFrame {
     private void jPasswordField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField4ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        this.setContentPane(new Game(this, name, ipBDServer, score, serversIp.get(jList1.getSelectedIndex())));
+        this.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments
