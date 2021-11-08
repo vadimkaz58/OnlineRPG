@@ -200,11 +200,11 @@ public class Game extends javax.swing.JPanel {
         Player winner = checkWinner();
         if (winner != null) {
             if (winner == players[0]) {
-                winner.score = scoreP1;
-                jLabelScore1.setText(Integer.toString(++winner.score));  
+                winner.score = ++scoreP1;
+                jLabelScore1.setText(Integer.toString(winner.score));  
             } else {
-                winner.score = scoreP2;
-                jLabelScore2.setText(Integer.toString(++winner.score));
+                winner.score = ++scoreP2;
+                jLabelScore2.setText(Integer.toString(winner.score));
             }
             refresh();
         }
@@ -621,32 +621,44 @@ public class Game extends javax.swing.JPanel {
 
     private void jBF2x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF2x1ActionPerformed
         field(1,0);
-        onlineNet.sendXY(1, 0);
+        if (online) {
+            onlineNet.sendXY(1, 0);
+        }
     }//GEN-LAST:event_jBF2x1ActionPerformed
 
     private void jBF2x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF2x2ActionPerformed
         field(1,1);
-        onlineNet.sendXY(1, 1);
+        if (online) {
+            onlineNet.sendXY(1, 1);
+        }
     }//GEN-LAST:event_jBF2x2ActionPerformed
 
     private void jBF2x3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF2x3ActionPerformed
         field(1,2);
-        onlineNet.sendXY(1, 2);
+        if (online) {
+            onlineNet.sendXY(1, 2);
+        }
     }//GEN-LAST:event_jBF2x3ActionPerformed
 
     private void jBF3x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF3x1ActionPerformed
         field(2,0);
-        onlineNet.sendXY(2, 0);
+        if (online) {
+            onlineNet.sendXY(2, 0);
+        }
     }//GEN-LAST:event_jBF3x1ActionPerformed
 
     private void jBF3x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF3x2ActionPerformed
         field(2,1);
-        onlineNet.sendXY(2, 1);
+        if (online) {
+            onlineNet.sendXY(2, 1);
+        }
     }//GEN-LAST:event_jBF3x2ActionPerformed
 
     private void jBF3x3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF3x3ActionPerformed
         field(2,2);
-        onlineNet.sendXY(2, 2);
+        if (online) {
+            onlineNet.sendXY(2, 2);
+        }
     }//GEN-LAST:event_jBF3x3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -673,7 +685,9 @@ public class Game extends javax.swing.JPanel {
 
     private void jBF1x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF1x1ActionPerformed
         field(0,0);
-        onlineNet.sendXY(0, 0);
+        if (online) {
+            onlineNet.sendXY(0, 0);
+        }
     }//GEN-LAST:event_jBF1x1ActionPerformed
 
     private void jFieldAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFieldAction
@@ -682,12 +696,16 @@ public class Game extends javax.swing.JPanel {
 
     private void jBF1x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF1x2ActionPerformed
         field(0,1);
-        onlineNet.sendXY(0, 1);
+        if (online) {
+            onlineNet.sendXY(0, 1);
+        }
     }//GEN-LAST:event_jBF1x2ActionPerformed
 
     private void jBF1x3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBF1x3ActionPerformed
         field(0,2);
-        onlineNet.sendXY(0, 2);
+        if (online) {
+            onlineNet.sendXY(0, 2);
+        }
     }//GEN-LAST:event_jBF1x3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
