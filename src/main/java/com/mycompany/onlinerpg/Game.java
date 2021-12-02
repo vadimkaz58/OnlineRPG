@@ -86,6 +86,10 @@ public class Game extends javax.swing.JPanel {
         jTabbedPane1.setSelectedIndex(startPage);
         
     }
+
+    public Game(Square[][] field) {
+        this.field = field; 
+    }
     
     private void fieldGame() {
         jLabelPlayer1.setText(player1);
@@ -136,7 +140,7 @@ public class Game extends javax.swing.JPanel {
         }
     }
     
-    private Player checkWinner() {
+    public Player checkWinner() {
         Player currPlayer;
         Player lastPlayer = null;
         int successCounter = 1;

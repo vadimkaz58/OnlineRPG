@@ -10,5 +10,5 @@ package com.mycompany.onlinerpg;
  * @author vadimkaz58
  */
 public class Square {
-    Player player = null;
+    public Player player = null;
 }

@@ -21,4 +21,8 @@ public class Player {
         this.img = img;
         this.score = score;
     }
+    
+    public Player(String name) {
+        this.name = name;
+    }
 }
